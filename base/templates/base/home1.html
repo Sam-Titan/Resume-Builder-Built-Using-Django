@@ -1,0 +1,79 @@
+{% extends 'main.html'%}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href={% static 'styles/style_home.css'%}>
+
+<div class="home-container">
+    <div>
+        <h3>Browse Topics</h3>
+        {% for topic in topics %}
+        <div>
+            <a href="{% url 'home' %}?q={{topic.title}}">{{ topic.title }}</a>
+        </div>
+        {% endfor %}
+        <hr>
+    </div>
+    <div>
+        <a href="{% url 'resume-creation' %}" class="nav-link">Create a Resume</a>
+        <div>
+            {% for resume in resumes %}
+            <div class="resume-item">
+                <a href="{% url 'resume-update' resume.id %}" class="nav-link">Edit</a>
+                <a href="{% url 'resume-delete' resume.id %}" class="nav-link">Delete</a>
+                <a href="{% url 'resume_pdf' resume.id %}" class="download-btn">PDF</a>
+                <a href="{% url 'resume-ats' resume.id%}" class="resume-ats">ATS</a>
+                <a href="{% url 'resume-llm' resume.id%}" class="resume-llm">AI</a>
+                {% comment %} <a href="{% url 'generate_pdf' %}" class="pdf-button">Download PDF</a> {% endcomment %}
+                <h5>{{ resume.id }} - 
+                    <a href="{% url 'resume' resume.id %}">{{ resume.title }}</a>
+                </h5>
+                <small>{{ resume.summary }}</small>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelectorAll(".resume-llm").forEach(button => {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();  // Stop default navigation
+            
+            this.innerText = "Updating...";  // Show loading text
+            this.disabled = true;  // Disable button temporarily
+
+            fetch(this.href, { 
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken")  // Send CSRF token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();  // Refresh page
+                } else {
+                    this.innerText = "AI";
+                    this.disabled = false;
+                }
+            });
+        });
+    });
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock content %}

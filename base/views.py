@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Resume, Education, Experience, Skill, Project, Award, Interest, Contact
 from .forms import ResumeForm, ContactForm,EducationForm, ExperienceForm, SkillForm, ProjectForm, AwardForm, InterestForm
 from django.forms import inlineformset_factory
-
+import requests
 
 # Create your views here.
 
@@ -84,6 +84,7 @@ def resume(request, resume_id):
     projects = resume.projects.all()
     award = Award.objects.all()
     interests = Interest.objects.all()
+    
     return render(request, 'base/resume_template.html', {
         'resume': resume,
         'contact': contact,
@@ -422,6 +423,7 @@ def generate_llm_response(request, pk):
             interest_entries[idx].save()
 
     resume.save()
+    
     return redirect('resume', resume_id=resume.pk)
 
 
@@ -601,3 +603,28 @@ def generate_ats(request, pk):
         error_msg = f"Error generating ATS score: {e}"
         logger.error(error_msg)
         return render(request, 'base/error.html', {'error': error_msg})
+    
+
+# class Blog(BaseModel):
+#     title: str
+#     age: int
+
+# @app.get('/')
+# def index(limit=10, published:bool = True):
+#     if published:
+#         return f"{limit} Published Blogs"
+#     else:
+#         return "Nopublished Blogs"
+    
+# @app.get('/blog/{id}')
+# def index(id:int):
+#     return f"{id} is the id of the published blog"
+
+# @app.post('/blog')
+# def create_blog(request:Blog):
+#     return f"{request.title} is of {request.age}"
+
+# @app.get('/resume')
+# def getinfo(resume_id:int):
+#     print(f"Received resume ID: {resume_id}")
+#     return {"resume_id": resume_id, "message": "Resume ID received"}

@@ -1,79 +1,141 @@
 {% extends 'main.html'%}
 {% load static %}
 {% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href={% static 'styles/style_home.css'%}>
-
-<div class="home-container">
-    <div>
-        <h3>Browse Topics</h3>
-        {% for topic in topics %}
-        <div>
-            <a href="{% url 'home' %}?q={{topic.title}}">{{ topic.title }}</a>
+<link rel="stylesheet" href={% static 'styles/style.css'%}>
+<div class="container mt-4">
+  <div class="row">
+    <!-- Topics Sidebar -->
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Browse Topics</h5>
         </div>
-        {% endfor %}
-        <hr>
+        <div class="list-group list-group-flush">
+          {% for topic in topics %}
+            <a href="{% url 'home' %}?q={{topic.title}}" class="list-group-item list-group-item-action d-flex align-items-center">
+              <i class="bi bi-tag me-2"></i>{{ topic.title }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <div>
-        <a href="{% url 'resume-creation' %}" class="nav-link">Create a Resume</a>
-        <div>
-            {% for resume in resumes %}
-            <div class="resume-item">
-                <a href="{% url 'resume-update' resume.id %}" class="nav-link">Edit</a>
-                <a href="{% url 'resume-delete' resume.id %}" class="nav-link">Delete</a>
-                <a href="{% url 'resume_pdf' resume.id %}" class="download-btn">PDF</a>
-                <a href="{% url 'resume-ats' resume.id%}" class="resume-ats">ATS</a>
-                <a href="{% url 'resume-llm' resume.id%}" class="resume-llm">AI</a>
-                {% comment %} <a href="{% url 'generate_pdf' %}" class="pdf-button">Download PDF</a> {% endcomment %}
-                <h5>{{ resume.id }} - 
-                    <a href="{% url 'resume' resume.id %}">{{ resume.title }}</a>
+    
+    <!-- Main Content -->
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>My Resumes</h3>
+        <a href="{% url 'resume-creation' %}" class="btn btn-success">
+          <i class="bi bi-plus-circle me-2"></i>Create New Resume
+        </a>
+      </div>
+      
+      <!-- Resume List -->
+      <div class="resume-container">
+        {% if resumes %}
+          {% for resume in resumes %}
+            <div class="card mb-3 shadow-sm">
+              <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <a href="{% url 'resume' resume.id %}" class="text-decoration-none">{{ resume.title }}</a>
                 </h5>
-                <small>{{ resume.summary }}</small>
-                <hr>
+                <div class="resume-id badge bg-secondary">ID: {{ resume.id }}</div>
+              </div>
+              <div class="card-body">
+                <p class="card-text text-muted small">{{ resume.summary }}</p>
+              </div>
+              <div class="card-footer bg-white d-flex flex-wrap gap-2">
+                <a href="{% url 'resume-update' resume.id %}" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-pencil me-1"></i>Edit
+                </a>
+                <a href="{% url 'resume_pdf' resume.id %}" class="btn btn-sm btn-outline-success">
+                  <i class="bi bi-file-pdf me-1"></i>PDF
+                </a>
+                <a href="{% url 'resume-ats' resume.id%}" class="btn btn-sm btn-outline-info">
+                  <i class="bi bi-check-circle me-1"></i>ATS
+                </a>
+                <a href="{% url 'resume-llm' resume.id%}" class="btn btn-sm btn-outline-secondary resume-llm">
+                  <i class="bi bi-robot me-1"></i>AI
+                </a>
+                <a href="{% url 'resume-delete' resume.id %}" class="btn btn-sm btn-outline-danger ms-auto">
+                  <i class="bi bi-trash me-1"></i>Delete
+                </a>
+              </div>
             </div>
-            {% endfor %}
-        </div>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>You haven't created any resumes yet. Get started by clicking "Create New Resume".
+          </div>
+        {% endif %}
+      </div>
     </div>
+  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.querySelectorAll(".resume-llm").forEach(button => {
-        button.addEventListener("click", function(event) {
-            event.preventDefault();  // Stop default navigation
-            
-            this.innerText = "Updating...";  // Show loading text
-            this.disabled = true;  // Disable button temporarily
+  document.querySelectorAll(".resume-llm").forEach(button => {
+    button.addEventListener("click", function(event) {
+      event.preventDefault();  // Stop default navigation
+      
+      const originalText = this.innerHTML;
+      this.innerHTML = '<i class="bi bi-hourglass me-1"></i>Updating...';  // Show loading text
+      this.disabled = true;  // Disable button temporarily
+      this.classList.add('disabled');
 
-            fetch(this.href, { 
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken")  // Send CSRF token
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    location.reload();  // Refresh page
-                } else {
-                    this.innerText = "AI";
-                    this.disabled = false;
-                }
-            });
-        });
-    });
-
-    // Function to get CSRF token from cookies
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
+      fetch(this.href, { 
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")  // Send CSRF token
         }
-        return cookieValue;
-    }
-</script>
+      })
+      .then(response => {
+        if (response.ok) {
+          location.reload();  // Refresh page
+        } else {
+          this.innerHTML = originalText;
+          this.disabled = false;
+          this.classList.remove('disabled');
+          
+          // Show error toast
+          const toastEl = document.createElement('div');
+          toastEl.innerHTML = `
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+              <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger text-white">
+                  <strong class="me-auto">Error</strong>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                  Failed to update the resume. Please try again.
+                </div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(toastEl);
+          setTimeout(() => toastEl.remove(), 3000);
+        }
+      });
+    });
+  });
 
+  // Function to get CSRF token from cookies
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
 {% endblock content %}
