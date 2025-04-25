@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h3><a href="/">ResumeKart</a></h3>
+        </div>
+        <form method="GET" action="{% url 'home' %}" class="search-bar">
+            <input type="text" name="q" placeholder="Search resumes">
+            <button type="submit">Search</button>
+        </form>
+        <div class="auth-links">
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="nav-link">Login</a>
+            {% endif %}
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="message">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endblock %}
+    </main>
+</body>
+</html>

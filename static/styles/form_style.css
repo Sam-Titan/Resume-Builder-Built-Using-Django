@@ -1,0 +1,255 @@
+/* Main Container for Form and Preview */
+.resume-builder-container {
+    display: flex; /* Use flexbox for side-by-side layout */
+    gap: 20px; /* Space between form and preview */
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add some padding */
+}
+
+/* Form Section */
+#resume-form {
+    flex: 1; /* Take up 50% of the container */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Live Preview Section */
+#live-preview {
+    flex: 1; /* Take up 50% of the container */
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Make the preview scrollable */
+    height: 80vh; /* Set a fixed height for the preview */
+}
+
+/* Header Section */
+.resume-header {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+}
+
+.resume-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-info {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.summary {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+}
+
+/* Section Styling */
+.resume-section {
+    margin-bottom: 1.5rem;
+}
+
+.resume-section h2 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.8rem;
+}
+
+.resume-item {
+    margin-bottom: 1rem;
+}
+
+.resume-item h3 {
+    font-size: 1rem;
+    margin: 0 0 0.3rem 0;
+    color: #333;
+}
+
+.resume-item h3 span {
+    font-weight: normal;
+}
+
+.dates {
+    font-size: 0.8rem;
+    margin: 0.2rem 0;
+    color: #666;
+}
+
+/* Lists Styling */
+.resume-section ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.resume-section li {
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Links Styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Print Styles */
+@media print {
+    .resume-container {
+        border: none;
+        box-shadow: none;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+
+/* Main Container for Form and Preview */
+.resume-builder-container {
+    display: flex; /* Use flexbox for side-by-side layout */
+    gap: 20px; /* Space between form and preview */
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add some padding */
+    height: 80vh; /* Set a fixed height for the container */
+}
+
+/* Form Section */
+#resume-form {
+    flex: 1; /* Take up 50% of the container */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Make the form scrollable */
+    height: 100%; /* Take up full height of the container */
+}
+
+/* Live Preview Section */
+#live-preview {
+    flex: 1; /* Take up 50% of the container */
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Make the preview scrollable */
+    height: 100%; /* Take up full height of the container */
+}
+
+/* Header Section */
+.resume-header {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 1.5rem;
+}
+
+.resume-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-info {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.summary {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+}
+
+/* Section Styling */
+.resume-section {
+    margin-bottom: 1.5rem;
+}
+
+.resume-section h2 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.8rem;
+}
+
+.resume-item {
+    margin-bottom: 1rem;
+}
+
+.resume-item h3 {
+    font-size: 1rem;
+    margin: 0 0 0.3rem 0;
+    color: #333;
+}
+
+.resume-item h3 span {
+    font-weight: normal;
+}
+
+.dates {
+    font-size: 0.8rem;
+    margin: 0.2rem 0;
+    color: #666;
+}
+
+/* Lists Styling */
+.resume-section ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.resume-section li {
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Links Styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Print Styles */
+@media print {
+    .resume-container {
+        border: none;
+        box-shadow: none;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}

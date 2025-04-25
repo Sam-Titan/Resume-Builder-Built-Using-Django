@@ -1,0 +1,198 @@
+/* Home page container */
+.home-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Topics section */
+.home-container > div:first-child {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.home-container h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+/* Topic links */
+.home-container > div:first-child a {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.home-container > div:first-child a:hover {
+    background-color: #FFE4B5;
+    color: #e67e22;
+    transform: translateX(5px);
+}
+
+/* Create Resume button */
+a.nav-link[href*="resume-creation"] {
+    display: inline-block;
+    background-color: #e67e22;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+a.nav-link[href*="resume-creation"]:hover {
+    background-color: #d35400;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Resume items */
+.resume-item {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.resume-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.resume-item h5 {
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.resume-item h5 a {
+    color: #e67e22;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.resume-item h5 a:hover {
+    color: #d35400;
+}
+
+.resume-item small {
+    color: #666;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* Action buttons */
+.resume-item .nav-link,
+.resume-item .download-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.resume-item .nav-link,
+.resume-item .resume-ats {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.resume-item .nav-link,
+.resume-item .resume-llm {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.resume-item .nav-link[href*="update"] {
+    background-color: #3498db;
+    color: white;
+}
+
+.resume-item .nav-link[href*="delete"] {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.resume-item .download-btn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.resume-item .resume-ats {
+    background-color: #511153;
+    color: white;
+}
+
+.resume-item .resume-llm {
+    background-color: #e16710;
+    color: white;
+}
+
+.resume-item .nav-link:hover,
+.resume-item .download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.resume-item .nav-link:hover,
+.resume-item .resume-ats:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.resume-item .nav-link:hover,
+.resume-item .resume-llm:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Horizontal rules */
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .home-container {
+        grid-template-columns: 1fr;
+    }
+
+    .home-container > div:first-child {
+        margin-bottom: 1rem;
+    }
+
+    .resume-item {
+        padding: 1rem;
+    }
+
+    .resume-item .nav-link,
+    .resume-item .download-btn {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}

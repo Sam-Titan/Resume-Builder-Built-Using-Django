@@ -1,0 +1,396 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<link rel='stylesheet' href={% static 'styles/form_style.css' %}>
+
+<div class="resume-builder-container">
+    <!-- Form Section -->
+    <form id="resume-form" method="POST">
+        {% csrf_token %}
+        <h2>Create/Edit Resume</h2>
+        
+        <!-- Personal Information -->
+        <div class="form-section">
+            <h3>Personal Information</h3>
+            <div class="form-field">
+                {{ form.as_p }}
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+            <h3>Contact Information</h3>
+            <div class="form-field">
+                {{ contact_form.as_p }}
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="form-section" id="education-section">
+            <h3>Education</h3>
+            {{ education_formset.management_form }}
+            <div id="education-container">
+                {% for form in education_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-education">Add Education</button>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="form-section" id="experience-section">
+            <h3>Work Experience</h3>
+            {{ experience_formset.management_form }}
+            <div id="experience-container">
+                {% for form in experience_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-experience">Add Experience</button>
+        </div>
+
+        <!-- Skills -->
+        <div class="form-section" id="skill-section">
+            <h3>Skills</h3>
+            {{ skill_formset.management_form }}
+            <div id="skill-container">
+                {% for form in skill_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-skill">Add Skill</button>
+        </div>
+
+        <!-- Projects -->
+        <div class="form-section" id="project-section">
+            <h3>Projects</h3>
+            {{ project_formset.management_form }}
+            <div id="project-container">
+                {% for form in project_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-project">Add Project</button>
+        </div>
+
+        <!-- Awards -->
+        <div class="form-section" id="award-section">
+            <h3>Languages</h3>
+            {{ award_formset.management_form }}
+            <div id="award-container">
+                {% for form in award_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-award">Add Award</button>
+        </div>
+
+        <!-- Interests -->
+        <div class="form-section" id="interest-section">
+            <h3>Extra-Curriculur</h3>
+            {{ interest_formset.management_form }}
+            <div id="interest-container">
+                {% for form in interest_formset %}
+                    <div class="formset-item">
+                        {{ form.as_p }}
+                        <button type="button" class="remove-form">Remove</button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-interest">Add Interest</button>
+        </div>
+
+        <button type="submit" class="submit-btn">Save Resume</button>
+    </form>
+
+    <!-- Preview Section -->
+    <div id="live-preview">
+        <header class="resume-header">
+            <h1 id="resume-name">Your Name</h1>
+            <p id="resume-summary">Professional Summary</p>
+            <div id="contact-info" class="contact-info"></div>
+        </header>
+
+        <section class="resume-section">
+            <h2>Professional Experience</h2>
+            <div id="experience-list"></div>
+        </section>
+        <section class="resume-section">
+            <h2>Education</h2>
+            <div id="education-list"></div>
+        </section>
+        <section class="resume-section">
+            <h2>Skills</h2>
+            <div id="skill-list"></div>
+        </section>
+        <section class="resume-section">
+            <h2>Projects</h2>
+            <div id="project-list"></div>
+        </section>
+        <section class="resume-section">
+            <h2>Awards</h2>
+            <div id="award-list"></div>
+        </section>
+        <section class="resume-section">
+            <h2>Interests</h2>
+            <div id="interest-list"></div>
+        </section>
+    </div>
+</div>
+
+<script>
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Update the live preview
+    function updatePreview() {
+        // Update name and summary
+        document.getElementById('resume-name').innerText = document.querySelector('[name="name"]')?.value || "Your Name";
+        document.getElementById('resume-summary').innerText = document.querySelector('[name="summary"]')?.value || "Professional Summary";
+
+        // Update contact information
+        const contactInfo = document.getElementById('contact-info');
+        const email = document.querySelector('[name="email"]')?.value || "";
+        const phone = document.querySelector('[name="phone"]')?.value || "";
+        const linkedin = document.querySelector('[name="linkedin"]')?.value || "";
+        const github = document.querySelector('[name="github"]')?.value || "";
+        contactInfo.innerHTML = `
+            <p>Email: ${email}</p>
+            <p>Phone: ${phone}</p>
+            <p>LinkedIn: ${linkedin}</p>
+            <p>GitHub: ${github}</p>
+        `;
+
+        // Update education, experience, skills, projects, awards, certifications, interests, and positions
+        updateEducation();
+        updateExperience();
+        updateSkills();
+        updateProjects();
+        updateAwards();
+        updateInterests();
+    }
+
+    // Update the education section in the preview
+    function updateEducation() {
+        const educationList = document.getElementById("education-list");
+        educationList.innerHTML = "";
+    
+        document.querySelectorAll("#education-container .formset-item").forEach((item) => {
+            const school = item.querySelector('[name$="-school_name"]')?.value.trim() || "School Name";
+            const degree = item.querySelector('[name$="-degree"]')?.value.trim() || "Degree";
+            const fieldOfStudy = item.querySelector('[name$="-field_of_study"]')?.value.trim() || "Field of Study";
+            const startYear = item.querySelector('[name$="-start_year"]')?.value.trim() || "Start Year";
+            const endYear = item.querySelector('[name$="-end_year"]')?.value.trim() || "Present";
+            const cgpa = item.querySelector('[name$="-cgpa"]')?.value.trim();
+    
+            // Create education item
+            const educationItem = document.createElement("div");
+            educationItem.classList.add("education-item");
+    
+            // Set inner content
+            educationItem.innerHTML = `
+                <p>${startYear} - ${endYear}</p>
+                <h3>${school}</h3>
+                <p>${degree} in ${fieldOfStudy}</p>
+                ${cgpa ? `<p>CGPA: ${cgpa}</p>` : ""}
+            `;
+    
+            // Append to the list
+            educationList.appendChild(educationItem);
+        });
+    }
+
+    // Update the experience section in the preview
+    function updateExperience() {
+        const experienceList = document.getElementById("experience-list");
+        experienceList.innerHTML = "";
+
+        document.querySelectorAll("#experience-container .formset-item").forEach((item, index) => {
+            const company = item.querySelector('[name$="-company_name"]')?.value || "Company Name";
+            const role = item.querySelector('[name$="-role"]')?.value || "Role";
+            const description = item.querySelector('[name$="-description"]')?.value || "Description";
+            const startDate = item.querySelector('[name$="-start_date"]')?.value || "Start Date";
+            const endDate = item.querySelector('[name$="-end_date"]')?.value || "End Date";
+
+            experienceList.innerHTML += `
+                <div class="experience-item">
+                    <h3>${company}</h3>
+                    <p>${role}</p>
+                    <p>${description}</p>
+                    <p>${startDate} - ${endDate}</p>
+                </div>
+            `;
+        });
+    }
+
+    // Update the skills section in the preview
+    function updateSkills() {
+        const skillList = document.getElementById("skill-list");
+        skillList.innerHTML = "";
+
+        document.querySelectorAll("#skill-container .formset-item").forEach((item, index) => {
+            const name = item.querySelector('[name$="-name"]')?.value || "Skill Name";
+            skillList.innerHTML += `
+                <div class="skill-item">
+                    <h3>${name}</h3>
+                </div>
+            `;
+        });
+    }
+
+    // Update the projects section in the preview
+    function updateProjects() {
+        const projectList = document.getElementById("project-list");
+        projectList.innerHTML = "";
+
+        document.querySelectorAll("#project-container .formset-item").forEach((item, index) => {
+            const title = item.querySelector('[name$="-title"]')?.value || "Project Title";
+            const description = item.querySelector('[name$="-description"]')?.value || "Description";
+            const url = item.querySelector('[name$="-url"]')?.value || "";
+
+            projectList.innerHTML += `
+                <div class="project-item">
+                    <h3>${title}</h3>
+                    <p>${description}</p>
+                    <p>${url}</p>
+                </div>
+            `;
+        });
+    }
+
+    // Update the awards section in the preview
+    function updateAwards() {
+        const awardList = document.getElementById("award-list");
+        awardList.innerHTML = "";
+
+        document.querySelectorAll("#award-container .formset-item").forEach((item, index) => {
+            const title = item.querySelector('[name$="-title"]')?.value || "Award Title";
+            {% comment %} const description = item.querySelector('[name$="-description"]')?.value || "Description";
+            const dateReceived = item.querySelector('[name$="-date_received"]')?.value || "Date Received"; {% endcomment %}
+
+            awardList.innerHTML += `
+                <div class="award-item">
+                    <h3>${title}</h3>
+                    {% comment %} <p>${description}</p>
+                    <p>${dateReceived}</p> {% endcomment %}
+                </div>
+            `;
+        });
+    }
+
+
+    // Update the interests section in the preview
+    function updateInterests() {
+        const interestList = document.getElementById("interest-list");
+        interestList.innerHTML = "";
+
+        document.querySelectorAll("#interest-container .formset-item").forEach((item, index) => {
+            const name = item.querySelector('[name$="-name"]')?.value || "Interest Name";
+
+            interestList.innerHTML += `
+                <div class="interest-item">
+                    <h3>${name}</h3>
+                </div>
+            `;
+        });
+    }
+
+    // Add a new form to the formset
+    function addForm(containerId, totalFormsId, prefix) {
+        const container = document.getElementById(containerId);
+        const totalForms = document.getElementById(totalFormsId);
+
+        if (!container || !totalForms) {
+            console.error("Container or total forms input not found.");
+            return;
+        }
+
+        const formCount = parseInt(totalForms.value);
+        const newForm = container.children[0].cloneNode(true);
+
+        // Update the form fields with the new index
+        newForm.innerHTML = newForm.innerHTML.replace(new RegExp(`-\\d+-`, 'g'), `-${formCount}-`);
+        newForm.querySelectorAll('input, select, textarea').forEach(input => {
+            input.value = ''; // Clear the input value
+            input.name = input.name.replace(new RegExp(`-\\d+-`, 'g'), `-${formCount}-`);
+            input.id = input.id.replace(new RegExp(`-\\d+-`, 'g'), `-${formCount}-`);
+        });
+
+        // Append the new form to the container
+        container.appendChild(newForm);
+
+        // Update the total forms count
+        totalForms.value = formCount + 1;
+
+        // Update the preview
+        updatePreview();
+    }
+
+    // Remove a form from the formset
+    function removeForm(event) {
+        if (event.target.classList.contains('remove-form')) {
+            const formsetItem = event.target.closest('.formset-item');
+            formsetItem.remove();
+            updatePreview();
+        }
+    }
+
+    // Attach event listeners
+    document.addEventListener("DOMContentLoaded", function () {
+        // Add forms
+        document.getElementById("add-education").addEventListener("click", function() {
+            addForm("education-container", "id_education_form-TOTAL_FORMS", "education_form");
+        });
+        document.getElementById("add-experience").addEventListener("click", function() {
+            addForm("experience-container", "id_experience_form-TOTAL_FORMS", "experience_form");
+        });
+        document.getElementById("add-skill").addEventListener("click", function() {
+            addForm("skill-container", "id_skill_form-TOTAL_FORMS", "skill_form");
+        });
+        document.getElementById("add-project").addEventListener("click", function() {
+            addForm("project-container", "id_project_form-TOTAL_FORMS", "project_form");
+        });
+        document.getElementById("add-award").addEventListener("click", function() {
+            addForm("award-container", "id_award_form-TOTAL_FORMS", "award_form");
+        });
+        document.getElementById("add-interest").addEventListener("click", function() {
+            addForm("interest-container", "id_interest_form-TOTAL_FORMS", "interest_form");
+        });
+
+        // Remove forms
+        document.getElementById("education-container").addEventListener("click", removeForm);
+        document.getElementById("experience-container").addEventListener("click", removeForm);
+        document.getElementById("skill-container").addEventListener("click", removeForm);
+        document.getElementById("project-container").addEventListener("click", removeForm);
+        document.getElementById("award-container").addEventListener("click", removeForm);
+        document.getElementById("interest-container").addEventListener("click", removeForm);
+        // Live preview updates
+        document.getElementById("resume-form").addEventListener("input", debounce(updatePreview, 300));
+
+        // Initial preview update
+        updatePreview();
+    });
+</script>
+
+{% endblock content %}

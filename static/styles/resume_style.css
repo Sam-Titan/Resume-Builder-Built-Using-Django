@@ -1,0 +1,141 @@
+/* Main Resume Container */
+.resume-container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    max-width: 950px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+.resume-header {
+    grid-column: 1 / span 2;
+    background-color: #f8f9fa;
+    padding: 1.2rem;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.resume-header h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+.contact-info {
+    font-size: 0.9rem;
+    color: #444;
+    margin-top: 0.4rem;
+}
+
+.summary {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #333;
+    margin-top: 0.5rem;
+}
+
+/* Left Column (Main Content) */
+.resume-left {
+    grid-column: 1;
+    padding: 1.2rem;
+    background-color: white;
+}
+
+/* Right Column (Sidebar) */
+.resume-right {
+    grid-column: 2;
+    padding: 1.2rem;
+    background-color: #f8f9fa;
+    border-left: 1px solid #ccc;
+}
+
+/* Section Styling */
+.resume-section {
+    margin-bottom: 1.2rem;
+}
+
+.resume-section h2 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.6rem;
+}
+
+.resume-item {
+    margin-bottom: 0.6rem;
+}
+
+.resume-item h3 {
+    font-size: 1rem;
+    margin: 0;
+    color: #222;
+}
+
+.dates {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Lists Styling */
+.resume-section ul {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.resume-section li {
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Links styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Swap columns on wider screens */
+@media (min-width: 768px) {
+    .resume-container {
+        grid-template-columns: 58% 42%;
+    }
+}
+
+/* Print Styles for Compact PDF Output */
+@media print {
+    .resume-container {
+        border: none;
+        box-shadow: none;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+    }
+
+    .resume-header {
+        padding: 1rem;
+    }
+
+    .resume-section h2 {
+        font-size: 1.1rem;
+    }
+
+    .resume-item h3,
+    .resume-section li {
+        font-size: 0.9rem;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}

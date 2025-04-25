@@ -1,0 +1,166 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #FFE4B5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), /* Stronger shadow */
+                0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 0 20px 20px; /* Rounded bottom corners */
+    margin: 0 15px; /* Add some margin on sides */
+}
+
+.logo h3 a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.logo h3 a:hover {
+    color: #e67e22;
+}
+
+/* Search bar styles - moved to right */
+.search-bar {
+    display: flex;
+    gap: 0.25rem;
+    flex: 0 1 250px;
+    margin-left: auto; /* Push to right */
+    margin-right: 20px; /* Space between search bar and auth links */
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.35rem 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px; /* More rounded input */
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #e67e22;
+    box-shadow: 0 2px 8px rgba(230, 126, 34, 0.2); /* Enhanced shadow on focus */
+}
+
+.search-bar button {
+    padding: 0.35rem 0.75rem;
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    border-radius: 20px; /* More rounded button */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.search-bar button:hover {
+    background-color: #d35400;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Auth links styles */
+.auth-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-link {
+    color: #2c3e50;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px; /* More rounded links */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.nav-link:hover {
+    background-color: rgba(230, 126, 34, 0.1);
+    color: #e67e22;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+/* Main content styles */
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Messages styles */
+.messages {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.message {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 20px; /* More rounded messages */
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        margin: 0; /* Remove margin on mobile */
+        border-radius: 0; /* Remove border radius on mobile */
+    }
+
+    .search-bar {
+        width: 100%;
+        margin-right: 0; /* Reset margin on mobile */
+    }
+
+    .auth-links {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 1rem;
+    }
+    
+    .search-bar {
+        flex-direction: column;
+    }
+    
+    .search-bar button {
+        width: 100%;
+    }
+}

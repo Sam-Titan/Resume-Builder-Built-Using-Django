@@ -1,0 +1,40 @@
+{% extends 'main.html'%}
+{% load static %}
+{% block content %}
+<link rel='stylesheet' href={% static 'styles/style_login.css'%}>
+<div class="container">
+    <div class="form-section">
+        {% if page == 'login' %}
+        <h1>Welcome Back!</h1>
+        <p>Login to access your account and continue where you left off.</p>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+            <div class="remember-forgot">
+                <label><input type="checkbox" name="remember_me"> Remember Me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="Login" class="login-btn">
+            </div>
+        </form>
+        <p>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
+
+        {% elif page == 'register' %}
+        <h1>Create an Account</h1>
+        <p>Sign up to start building your resume and take your first step forward.</p>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="buttons">
+                <input type="submit" value="Register" class="signup-btn">
+            </div>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
