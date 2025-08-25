@@ -68,12 +68,12 @@ WSGI_APPLICATION = 'resumekart.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'dragon',                  # Name of your database
-        'USER': 'root',        # Your MySQL username
-        'PASSWORD': 'SamTheGreat@2005',    # Your MySQL password
-        'HOST': 'localhost',                  # Database host (default is localhost)
-        'PORT': '3306',                       # Port (default is 3306)
+        'ENGINE': '',  # Use MySQL backend
+        'NAME': '',                  # Name of your database
+        'USER': '',        # Your MySQL username
+        'PASSWORD': '',    # Your MySQL password
+        'HOST': '',                  # Database host (default is localhost)
+        'PORT': '',                       # Port (default is 3306)
     }
 }
 
