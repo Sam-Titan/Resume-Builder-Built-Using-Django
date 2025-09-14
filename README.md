@@ -13,8 +13,10 @@ A simple, template‑based resume builder built with **Django** on the backend a
 - Basic static assets for styling
 - SQLite database out of the box (dev-friendly)
 - Simple project/app split for easy extension
-
-> Note: This project focuses on a minimal, easy-to-understand structure so you can extend it with your own models, forms, and templates.
+- Live Preview Available
+- ATS Scoring Feature
+- Gemini LLM Integration
+Note: This project focuses on a minimal, easy-to-understand structure, allowing you to extend it with your own models, forms, and templates.
 
 ---
 
